@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   postgres:
@@ -11,6 +11,18 @@ services:
       - POSTGRES_DB=polls
     volumes:
       - polls_pg_data:/bitnami/postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-cinema
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
 
 volumes:
   polls_pg_data:
