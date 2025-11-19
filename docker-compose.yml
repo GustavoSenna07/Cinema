@@ -3,14 +3,15 @@ version: '3.8'
 services:
   postgres:
     image: bitnami/postgresql:latest
+    container_name: cinema-postgres
     ports: 
       - '5432:5432'
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=polls
+      - POSTGRES_USER=cinema
+      - POSTGRES_PASSWORD=cinema123
+      - POSTGRES_DB=cinema_lendas
     volumes:
-      - polls_pg_data:/bitnami/postgresql
+      - cinema_pg_data:/bitnami/postgresql
 
   pgadmin:
     image: dpage/pgadmin4
@@ -25,4 +26,4 @@ services:
       - postgres
 
 volumes:
-  polls_pg_data:
+  cinema_pg_data:
