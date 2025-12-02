@@ -1,0 +1,18 @@
+# Build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+COPY . .
+
+RUN dotnet restore "backend.csproj"
+RUN dotnet publish "backend.csproj" -c Release -o /app/out
+
+# Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+WORKDIR /app
+
+COPY --from=build /app/out .
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "backend.dll"]

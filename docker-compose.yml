@@ -1,29 +1,22 @@
-version: '3.8'
-
 services:
-  postgres:
-    image: bitnami/postgresql:latest
-    container_name: cinema-postgres
-    ports: 
-      - '5432:5432'
-    environment:
-      - POSTGRES_USER=cinema
-      - POSTGRES_PASSWORD=cinema123
-      - POSTGRES_DB=cinema_lendas
-    volumes:
-      - cinema_pg_data:/bitnami/postgresql
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin-cinema
-    restart: always
+  postgres:
+    image: postgres:14
+    container_name: postgres
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your_secure_password
+      POSTGRES_DB: BancoDeConhecimentoInteligentedb
     ports:
-      - "5050:80"
-    depends_on:
-      - postgres
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+
+networks:
+  my_network:
 
 volumes:
-  cinema_pg_data:
+  postgres_data:
