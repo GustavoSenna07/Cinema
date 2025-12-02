@@ -1,10 +1,11 @@
 namespace backend.Models
 {
+    public enum tipoSala {VIP, Normal, Mista};
     public class Salas
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public int Numero { get; set; }
         public int Capacidade { get; set; }
-        public string TipoSala { get; set; } = string.Empty;
+        public tipoSala TipoSala { get; set; } = tipoSala.Normal;
     }
 }
