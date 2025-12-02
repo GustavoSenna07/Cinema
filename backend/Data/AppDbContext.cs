@@ -10,6 +10,12 @@ namespace backend.Data
         }
 
         public DbSet<Filme> Filmes { get; set; }
+        public DbSet<Sessao> Sessoes { get; set; }
+        public DbSet<Assentos> Assentos { get; set; }
+        public DbSet<Ingressos> Ingressos { get; set; }
+        public DbSet<Salas> Salas { get; set; }
+        public DbSet<Usuarios> Usuarios { get; set; }
+        public DbSet<Pagamentos> Pagamentos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
