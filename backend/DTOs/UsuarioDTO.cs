@@ -1,6 +1,8 @@
 namespace backend.DTOs;
 using System.ComponentModel.DataAnnotations;
 using backend.Models;
+using System.Text.Json.Serialization;
+
 
 public class UsuarioResponseDTO
 {
@@ -35,7 +37,12 @@ public class CriarUsuarioDTO
 
 public class AtualizarUsuarioDTO
 {
-  public string Nome { get; set; } = string.Empty;
-  public string Email { get; set; } = string.Empty;
-  public string CPF { get; set; } = string.Empty;
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Nome { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Email { get; set; }
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? CPF { get; set; }
 }

@@ -26,6 +26,14 @@ namespace backend.Data
             modelBuilder.Entity<Salas>().ToTable("salas");
             modelBuilder.Entity<Usuarios>().ToTable("usuarios");
             modelBuilder.Entity<Pagamentos>().ToTable("pagamentos");
+
+            modelBuilder.Entity<Usuarios>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+            modelBuilder.Entity<Usuarios>()
+            .HasIndex(u => u.CPF)
+            .IsUnique();
         }
     }
 }

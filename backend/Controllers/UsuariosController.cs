@@ -14,6 +14,21 @@ namespace backend.Controllers
         private readonly AppDbContext _context;
         private readonly IPasswordHasher _passwordHasher;
 
+        public static bool CpfValido(string cpf)
+        {
+            if (string.IsNullOrWhiteSpace(cpf))
+                return false;
+           
+            if (cpf.Distinct().Count() == 1)
+                return false;
+
+            // remove pontos, traços, letras, etc.
+            cpf = new string(cpf.Where(char.IsDigit).ToArray());
+
+            return cpf.Length == 11;
+        }
+
+
         public UsuariosController(AppDbContext context, IPasswordHasher passwordHasher)
         {
             _context = context;
@@ -46,6 +61,17 @@ namespace backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var emailExiste = await _context.Usuarios.AnyAsync(u => u.Email == dto.Email);
+            if (emailExiste)
+                return BadRequest("Já existe um usuário com esse Email.");
+
+            var cpfExiste = await _context.Usuarios.AnyAsync(u => u.CPF == dto.CPF);
+            if (cpfExiste)
+                return BadRequest("Já existe um usuário com esse CPF.");
+
+            if (!CpfValido(dto.CPF))
+                return BadRequest("CPF inválido.");
+
             var usuario = new Usuarios
             {
                 Nome = dto.Nome,
@@ -63,20 +89,58 @@ namespace backend.Controllers
 
         // PUT api/usuarios/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUsuario(int id, [FromBody] AtualizarUsuarioDTO dto)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
-                return NotFound("Usuário não encontrado");
+public async Task<IActionResult> UpdateUsuario(int id, [FromBody] AtualizarUsuarioDTO dto)
+{
+    var usuario = await _context.Usuarios.FindAsync(id);
+    if (usuario == null)
+        return NotFound("Usuário não encontrado");
 
-            usuario.Nome = dto.Nome;
-            usuario.Email = dto.Email;
-            usuario.CPF = dto.CPF;
+    if (dto.Email is not null)
+    {
+        if (await _context.Usuarios.AnyAsync(u => u.Email == dto.Email && u.Id != id))
+            return BadRequest("Já existe um usuário com esse Email.");
+    }
 
-            await _context.SaveChangesAsync();
+    if (dto.CPF is not null)
+    {
+        string cpfSomenteDigitos = new string(dto.CPF.Where(char.IsDigit).ToArray());
 
-            return Ok(new UsuarioResponseDTO(usuario));
-        }
+        if (await _context.Usuarios.AnyAsync(u => u.CPF == cpfSomenteDigitos && u.Id != id))
+            return BadRequest("Já existe um usuário com esse CPF.");
+    }
+    
+    if (dto.Nome is not null)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Nome))
+            return BadRequest("Nome não pode ser vazio.");
+
+        usuario.Nome = dto.Nome;
+    }
+
+    if (dto.Email is not null)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Email))
+            return BadRequest("Email não pode ser vazio.");
+
+        usuario.Email = dto.Email;
+    }
+
+    if (dto.CPF is not null)
+    {
+        if (string.IsNullOrWhiteSpace(dto.CPF))
+            return BadRequest("CPF não pode ser vazio.");
+
+        if (!CpfValido(dto.CPF))
+            return BadRequest("CPF deve conter apenas números e ter 11 dígitos!");
+
+        usuario.CPF = new string(dto.CPF.Where(char.IsDigit).ToArray());
+    }
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new UsuarioResponseDTO(usuario));
+}
+
 
         // DELETE api/usuarios/5
         [HttpDelete("{id}")]

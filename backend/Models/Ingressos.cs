@@ -12,21 +12,18 @@ namespace backend.Models
         public DateTime DataCompra {get; set; } = DateTime.UtcNow;
         public decimal ValorTotal { get; private set; }
 
-        public void PrecoIngresso(string tipoIngresso, decimal valorTotal) {
-          tipoIngresso = TipoIngresso.ToLower();
-          valorTotal = ValorTotal;
-          if(tipoIngresso.Equals("vip"))
-          {
-            valorTotal += 10;
-          }
-          else if(tipoIngresso.Equals("meia"))
-          {
-            valorTotal = valorTotal/2;
-          }
-          else if(tipoIngresso.Equals("estudante"))
-          {
-            valorTotal = valorTotal/2 + 5;
-          }
+        
+        public void CalcularPreco()
+        {
+          string tipo = TipoIngresso.ToLower();
+
+          if (tipo == "vip")
+              ValorTotal += 10;
+          else if (tipo == "meia")
+              ValorTotal /= 2;
+          else if (tipo == "estudante")
+              ValorTotal = (ValorTotal / 2) + 5;
         }
+
     } 
 }
