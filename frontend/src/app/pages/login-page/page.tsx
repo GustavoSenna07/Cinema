@@ -6,14 +6,17 @@ export default function LoginPage() {
     <div className="bg-neutral-800 flex justify-center items-center p-2 box-border w-screen h-screen">
       <div className="bg-neutral-700 p-2 flex justify-center items-center w-full h-full rounded-2xl flex-col gap-2">
         <h1 className="text-5xl text-[rgba(182,80,250,1)] text-shadow-lg font-bold">Bem Vindo</h1>
+
         <Input type="email" label="Email" placeHolder="email.example@gmail.com"></Input>
-        <Input type="text" label="CPF" placeHolder="XXX.XXX.XXX-XX"></Input>
-        <Input type="password" label="Senha" placeHolder="password"></Input>
+        <Input type="cpf" label="CPF" placeHolder="XXX.XXX.XXX-XX"></Input>
+        <Input type="password" label="Senha" placeHolder="Senha"></Input>
+
         <div className="flex justify-center items-center flex-col gap-3 pt-10">
           <Button variant="primary" href="" >Entrar</Button>
           <h1 className="text-[rgba(182,80,250,1)] text-2xl">Ainda Não tem uma Conta?</h1>
-          <Button variant="primary" href="">Cadastrar</Button>
+          <Button variant="primary" href="/pages/cadastro">Cadastrar</Button>
         </div>
+        
       </div>
     </div>
   )
