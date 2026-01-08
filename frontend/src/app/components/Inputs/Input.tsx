@@ -2,24 +2,22 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
-type InputValue = string | number;
-
 interface InputProps {
   label: string;
   placeHolder?: string;
-  value?: string;
-  type?: 'text' | 'email' | 'password' | 'date' | 'duration';
+  value?: unknown;
+  type?: "text" | "email" | "password" | "date" | "duration" | "rating";
   required?: boolean;
   disabled?: boolean;
   error?: string;
-  onChange?: (value: InputValue) => void;
+  onChange?: (value: unknown) => void;
 }
 
 export default function Input({
   label,
   placeHolder,
-  value = '',
-  type = 'text',
+  value,
+  type,
   required = false,
   disabled = false,
   error,
@@ -29,6 +27,7 @@ export default function Input({
 
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     if (type === 'duration') {
@@ -71,6 +70,25 @@ export default function Input({
       );
     }
 
+    if (type === 'rating') {
+      return (
+        <select
+          aria-label='Classificacao Indicativa'
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
+          className="bg-fuchsia-100 px-3 py-2 rounded-lg text-black"
+          >
+            <option value="">Selecione</option>
+            <option value="L">Livre</option>
+            <option value="10">10 Anos</option>
+            <option value="12">12 Anos</option>
+            <option value="14">14 Anos</option>
+            <option value="16">16 Anos</option>
+            <option value="18">18 Anos</option>
+        </select>
+      )
+    }
+
     return (
       <input
         id={inputId}
@@ -79,8 +97,7 @@ export default function Input({
         value={value}
         required={required}
         disabled={disabled}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          onChange?.(e.target.value)
+        onChange={(e) => onChange?.(e.target.value)
         }
         className="bg-fuchsia-100 px-3 py-2 rounded-lg text-black"
       />

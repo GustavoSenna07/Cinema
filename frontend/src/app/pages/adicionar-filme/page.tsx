@@ -2,10 +2,14 @@
 
 import Input from "@/app/components/Inputs/Input"
 import Button from "@/app/components/Inputs/Button"
+import GenderSelect from "@/app/components/Inputs/GenderSelect";
 import { useState } from "react";
 
 export default function AdicionarFilme() {
   const [releaseDate, setReleaseDate] = useState("");
+  const [rating, setRating] = useState("");
+  const [genres, setGenres] = useState<string[]>([]);
+
   return (
     <div className="bg-neutral-800 flex justify-center items-center p-2 box-border w-screen h-screen">
       <div className="bg-neutral-700 p-2 flex justify-center items-center w-full h-full rounded-2xl flex-row ">
@@ -23,8 +27,9 @@ export default function AdicionarFilme() {
             value={releaseDate}
             onChange={(value) => setReleaseDate(value as string)}
           />
-          <Input label="Duração " type="duration"></Input>
-
+          <Input label="Duração " type="duration"/>
+          <Input label="Classificação Indicativa" type="rating" value={rating} onChange={(value) => setRating(value as string)}/>
+          <GenderSelect value={genres} onChange={setGenres}/>
         </div>
       </div>
     </div>
