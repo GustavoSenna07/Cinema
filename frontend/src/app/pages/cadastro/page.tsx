@@ -1,5 +1,7 @@
-import Input from "@/app/components/Input"
-import Button from "@/app/components/Button"
+'use client';
+
+import Input from "@/app/components/Inputs/Input"
+import Button from "@/app/components/Inputs/Button"
 
 export default function Cadastro() {
   return (

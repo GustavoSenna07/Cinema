@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import Button from "../Button";
+import Button from "../Inputs/Button";
 
 export default function HeaderAdmin() {
   return (
