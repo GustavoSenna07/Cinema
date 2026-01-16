@@ -43,13 +43,13 @@ public class CriarFilmeDTO
   public DateTime DataLancamento {get; set; }
   public string Classificacao { get; set; }
   public string Sinopse { get; set; }
-  public string ImagemURL { get; set; }
   public string Elenco { get; set; }
+  public IFormFile? Imagem { get; set; }
 }
 
 public class AtualizarFilmeDTO
 {
-  public string Titulo { get; set; } = string.Empty;
+    public string Titulo { get; set; } = string.Empty;
     public string Genero { get; set; } = string.Empty;
     public string Diretor { get; set; } = string.Empty;
     public string Estudio { get; set; } = string.Empty;
@@ -57,6 +57,6 @@ public class AtualizarFilmeDTO
     public int DuracaoMinutos { get; set; }
     public string Classificacao { get; set; }
     public string Sinopse { get; set; }
-    public string ImagemURL { get; set; }
     public string Elenco { get; set; }
+    public IFormFile Imagem { get; set; }
 }

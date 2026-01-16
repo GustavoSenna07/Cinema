@@ -42,10 +42,33 @@ namespace backend.Controllers
 
         // POST api/filmes
         [HttpPost]
-        public async Task<IActionResult> CreateFilme([FromBody] CriarFilmeDTO dto)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateFilme([FromForm] CriarFilmeDTO dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            string imagePath = string.Empty;
+
+            if (dto.Imagem != null && dto.Imagem.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(dto.Imagem.FileName)}";
+                var fullPath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await dto.Imagem.CopyToAsync(stream);
+                }
+
+                imagePath = fileName;
+            }
 
             var filme = new Filme
             {
@@ -53,11 +76,11 @@ namespace backend.Controllers
                 Genero = dto.Genero,
                 Diretor = dto.Diretor,
                 Estudio = dto.Estudio,
-                DataLancamento = dto.DataLancamento,
+                DataLancamento = DateTime.SpecifyKind(dto.DataLancamento, DateTimeKind.Utc),
                 DuracaoMinutos = dto.DuracaoMinutos,
                 Classificacao = dto.Classificacao,
                 Sinopse = dto.Sinopse,
-                ImagemURL = dto.ImagemURL,
+                ImagemURL = imagePath,
                 Elenco = dto.Elenco
             };
 
@@ -83,7 +106,7 @@ namespace backend.Controllers
             filme.DuracaoMinutos = dto.DuracaoMinutos;
             filme.Classificacao = dto.Classificacao;
             filme.Sinopse = dto.Sinopse;
-            filme.ImagemURL = dto.ImagemURL;
+            //filme.ImagemURL = ImagePath;
             filme.Elenco = dto.Elenco;
 
             await _context.SaveChangesAsync();
