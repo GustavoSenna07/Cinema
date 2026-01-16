@@ -10,8 +10,8 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col gap-10">
-        <Button href="/pages/login-page" variant="primary">Entrar</Button>
-        <Button href="/pages/cadastro" variant="primary">Criar Conta</Button>
+        <Button href="/login-page" variant="primary">Entrar</Button>
+        <Button href="/cadastro" variant="primary">Criar Conta</Button>
       </div>
     </div>
   );

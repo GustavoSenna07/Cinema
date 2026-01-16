@@ -13,7 +13,7 @@ export default function Cadastro() {
             <Input type="password" label="Senha" placeHolder="Senha"></Input>     
 
             <div className="pt-10">
-              <Button variant="primary" href="/pages/start-page">Cadastrar</Button>  
+              <Button variant="primary" href="/start-page">Cadastrar</Button>  
             </div>
 
           </div>

@@ -14,7 +14,7 @@ export default function LoginPage() {
         <div className="flex justify-center items-center flex-col gap-3 pt-10">
           <Button variant="primary" href="" >Entrar</Button>
           <h1 className="text-[rgba(182,80,250,1)] text-2xl">Ainda Não tem uma Conta?</h1>
-          <Button variant="primary" href="/pages/cadastro">Cadastrar</Button>
+          <Button variant="primary" href="/cadastro">Cadastrar</Button>
         </div>
         
       </div>
